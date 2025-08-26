@@ -22,15 +22,13 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain (HttpSecurity http) throws Exception {
         http
                 .csrf (csrf -> csrf.disable ())
-                .sessionManagement (session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .sessionManagement (session -> session.sessionCreationPolicy (SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests (auth -> auth
-                        .requestMatchers ("/api/auth/**").permitAll()
-                        .anyRequest ().authenticated ()
-                )
+                        .requestMatchers ("/auth/**").permitAll ()
+                        .anyRequest ().authenticated ())
                 .exceptionHandling (ex -> ex
                         .authenticationEntryPoint ((request, response, authException) ->
-                                response.sendError (HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized"))
-                );
+                                response.sendError (HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized")));
         http.addFilterBefore (this.jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build ();
     }

@@ -22,7 +22,7 @@ public class ImageService {
     @Autowired
     private ImageRepository imageRepository;
 
-    private String uploadDir = "uploads";
+    private String uploadDir = new File (".").getAbsolutePath () + "/uploads";
 
     public Image uploadImage (MultipartFile file, User owner) throws IOException {
         File dir = new File (this.uploadDir);
